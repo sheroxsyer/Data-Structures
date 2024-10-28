@@ -1,0 +1,224 @@
+static void concatenate(node *a,node *b)
+    {
+        if( a != NULL && b!= NULL )
+        {
+            if (a->next == NULL)
+                a->next = b;
+            else
+                concatenate(a->next,b);
+        }
+        else
+        {
+            cout << "Either a or b is NULL\n";
+        }
+    }
+
+
+
+____________________________________________
+
+void InsertAfterSpecificKey(int val, int key ) {
+	node *t= new node();
+	GoToHead();
+	while (curr!=NULL) {
+		if (curr->data==key) {
+			t->data= val;
+			t->next= NULL;
+			t->next= curr->next;
+			curr->next= t;
+			length++;
+			break;
+		}
+		curr= curr->next;
+	}
+}
+
+_________________________________________________
+BST
+Node* BinarySearchTree::FindMax(Node* r){
+   
+    while(r->right!=NULL){
+        r= r->right;
+    }
+    return r;
+   
+}
+_______________________________________________
+Node * BinarySearchTree::inOrderTraversal( Node* r){
+     if (r == NULL)
+        return NULL;
+    /* first recur on left child */
+    inOrderTraversal(r->left);
+    /* then print the data of node */
+    cout << " "<< r->data << " -> ";
+    /* now recur on right child */
+    inOrderTraversal(r->right);
+   
+}
+
+Node* BinarySearchTree::preOrderTraversal( Node* r){
+     if (r == NULL)
+        return NULL;
+   
+    cout << " "<< r->data << " -> ";
+    preOrderTraversal(r->left);
+    preOrderTraversal(r->right);    
+}
+Node* BinarySearchTree::postOrderTraversal( Node* r){
+     if (r == NULL)
+        return NULL;
+    postOrderTraversal(r->left);
+    postOrderTraversal(r->right);    
+    cout << " "<< r->data << " -> ";
+}
+
+int BinarySearchTree::leafCount(Node * r){
+    int static count= 0;
+    if(r == NULL)
+        return 0;
+    else if(r->left == NULL && r->right == NULL)
+        return 1;
+
+    return count + leafCount(r->left) + leafCount(r->right);
+}
+
+int BinarySearchTree::treeHeight(Node *root)
+{
+    int static l_height=0;
+    int static r_height=0;
+    if (root == NULL)
+        return -1;
+    else
+    {
+    l_height = treeHeight(root->left);
+       r_height = treeHeight(root->right);
+        if (l_height > r_height)
+            return (l_height + 1);
+        else
+            return (r_height + 1);
+    }
+}
+// This method will merge tree1 into tree2
+Node * BinarySearchTree::merge( Node* r1, Node* r2){
+     if (r1 == NULL)
+        return NULL;
+    /* first recur on left child */
+    merge(r1->left, r2);
+
+   
+    insert(r2, r1->data);
+    /* now recur on right child */
+    merge(r1->right, r2);
+   
+}
+
+_________________________________________________
+
+leaf node
+
+int leafnodes(struct node *newnode)
+        {
+            if(newnode != NULL)
+            {
+                leafnodes(newnode->left);
+                if((newnode->left == NULL) && (newnode->right == NULL))
+                {
+                    count++;
+                }
+                leafnodes(newnode->right);
+            }
+            return count;
+        }
+____________________________________________________
+Find height
+
+int maxDepth(node* node)
+{
+	if (node == NULL)
+		return 0;
+	else
+	{
+		/* compute the depth of each subtree */
+		int lDepth = maxDepth(node->left);
+		int rDepth = maxDepth(node->right);
+	
+		/* use the larger one */
+		if (lDepth > rDepth)
+			return(lDepth + 1);
+		else return(rDepth + 1);
+	}
+}
+______________________________________________________
+infix to postfix
+
+int prec(char c)
+{
+	if (c == '^')
+		return 3;
+	else if (c == '/' || c == '*')
+		return 2;
+	else if (c == '+' || c == '-')
+		return 1;
+	else
+		return -1;
+}
+
+// The main function to convert infix expression
+// to postfix expression
+void infixToPostfix(string s)
+{
+
+	stack<char> st; // For stack operations, we are using
+					// C++ built in stack
+	string result;
+
+	for (int i = 0; i < s.length(); i++) {
+		char c = s[i];
+
+		// If the scanned character is
+		// an operand, add it to output string.
+		if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')
+			|| (c >= '0' && c <= '9'))
+			result += c;
+
+		// If the scanned character is an
+		// ‘(‘, push it to the stack.
+		else if (c == '(')
+			st.push('(');
+
+		// If the scanned character is an ‘)’,
+		// pop and to output string from the stack
+		// until an ‘(‘ is encountered.
+		else if (c == ')') {
+			while (st.top() != '(') {
+				result += st.top();
+				st.pop();
+			}
+			st.pop();
+		}
+
+		// If an operator is scanned
+		else {
+			while (!st.empty()
+				&& prec(s[i]) <= prec(st.top())) {
+				if (c == '^' && st.top() == '^')
+					break;
+				else {
+					result += st.top();
+					st.pop();
+				}
+			}
+			st.push(c);
+		}
+	}
+
+	// Pop all the remaining elements from the stack
+	while (!st.empty()) {
+		result += st.top();
+		st.pop();
+	}
+
+	cout << result << endl;
+}
+
+______________________________________
